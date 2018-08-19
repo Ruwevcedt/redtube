@@ -1,3 +1,4 @@
+from core import audio_handler
 import pytube
 import urllib
 import shutil
@@ -39,5 +40,7 @@ class VideoHandler:
             self._download_audio()
             self._change_extention()
             self._download_thumbnail()
+
+            audio_handler.MusicList.update()
         else:
             pass
