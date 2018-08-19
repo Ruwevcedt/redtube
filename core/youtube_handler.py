@@ -35,7 +35,7 @@ class VideoHandler:
         shutil.move(file_name + ".mp4", file_name + ".aac")
 
     def download_sequence(self):
-        if self._already_exists_check():
+        if not self._already_exists_check():
             self._download_audio()
             self._change_extention()
             self._download_thumbnail()
