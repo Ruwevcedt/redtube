@@ -14,10 +14,8 @@ def vid_aud(youtube_url):
             youtube_streams[index].download("music/")
             print("downlaoded : ", stream)
 
-            youtube_thumbnail_url = YTB(vid_url).thumbnail_url
-            try:
-                youtube_thumbnail_url = youtube_thumbnail_url.replace('default.jpg', 'hqdefault.jpg')
-
+            youtube_thumbnail_url = YouTube(youtube_url).thumbnail_url
+            youtube_thumbnail_url = youtube_thumbnail_url.replace('default.jpg', 'hqdefault.jpg')
             print("thumbnail url : ", youtube_thumbnail_url)
             urllib.request.urlretrieve(youtube_thumbnail_url, "picture/{}.jpg".format("".join(filter(lambda x: x if x not in "~\"#%&*:<>?\/{|}" else False, YTB(vid_url).title)), ''))
             return print("downlaod end")
