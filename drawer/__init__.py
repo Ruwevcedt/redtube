@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file
 import flask_login
+from core.audio_handler import MusicList
 from flask_login import login_required
 import os
 
@@ -20,7 +21,7 @@ from core import _login
 
 # Music Init
 
-music_list = []
+music_list = MusicList("music/")
 
 # Music Init
 

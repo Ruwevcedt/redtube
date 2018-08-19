@@ -1,3 +1,7 @@
+music/*.mp3
+.idea/
+.DS_Store
+picture/.DS_Store
 flask_session/ 
 legacy/
 upload/
