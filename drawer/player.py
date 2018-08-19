@@ -4,7 +4,7 @@ from drawer import app, redirect, render_template, send_file, url_for, login_req
 @app.route('/player')
 @login_required
 def player():
-    return render_template('player.html', music_list=music_list) if music_list else redirect(url_for('charge'))
+    return render_template('player.html', music_list=music_list if music_list else redirect(url_for('charge')))
 
 
 @app.route('/player/<path:path>')

@@ -1,7 +1,8 @@
 music/*.mp3
-.idea/
-.DS_Store
+music/*.mp4
+music/*.aac
 picture/.DS_Store
+music/.DS_Store
 flask_session/ 
 legacy/
 upload/

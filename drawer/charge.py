@@ -10,10 +10,8 @@ def charge():
 
     if request.method == 'POST':
         link = request.form['youtube_link']
-        try:
-            youtube_handler.youtube_video_getter(link)
-        except youtube_handler.pytube.exceptions.RegexMatchError:   # FIXME
-            print('ign : ', link)
-            pass
+
+        youtube_handler.youtube_video_getter(link)
+
         return redirect(url_for('player'))
     return render_template('charge.html')
