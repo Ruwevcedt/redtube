@@ -9,9 +9,9 @@ def charge():
     # FIXME
 
     if request.method == 'POST':
-        link = request.form['PLST']
+        link = request.form['youtube_link']
         try:
-            youtube_handler.vid_aud(link)
+            youtube_handler.youtube_video_getter(link)
         except youtube_handler.pytube.exceptions.RegexMatchError:   # FIXME
             print('ign : ', link)
             pass
