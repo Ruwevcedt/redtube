@@ -39,11 +39,11 @@
         </header>
 	    <div id='plwrap' style="height:inherit">
           <ol id='plList' style="height:92%; overflow:scroll">
-          {% for music in musiclist %}
+          {% for music in music_list.music_file_list %}
             <li style="width:inherit; overflow:hidden">
               <a>
                 <div class="plItem">
-                  <h3 class="plNum">{{ music.track }}</h3>
+                  <h3 class="plNum">{{ loop.index }}</h3>
                   <h4 class="plTitle">{{ music.name }}</h4>
                 </div>
               </a>
@@ -129,7 +129,7 @@
   <script src='http://api.html5media.info/1.1.8/html5media.min.js'></script>
   <script src="static/js/player.js"></script>
 	<script>
-		var tracks = {{ musiclist | safe }}
+		var tracks = {{ music_list.music_file_list | safe }}
 	</script>
 </body>
 </html>

@@ -15,9 +15,5 @@ def charge():
         except youtube_handler.pytube.exceptions.RegexMatchError:   # FIXME
             print('ign : ', link)
             pass
-
-        global musiclist
-
-        audio_handler.update_music()
         return redirect(url_for('player'))
     return render_template('charge.html')
