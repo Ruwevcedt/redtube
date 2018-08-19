@@ -13,28 +13,28 @@ class VideoHandler:
         self.thumbnail_download_path = thumbnail_path
         self.youtube_object = YouTube(url)
         self.title = self.youtube_object.title
-        self.audio_object = self.youtube_object.streams.filter(only_audio=True, file_extension='mp4')
+        self.audio_object = self.youtube_object.streams.filter(only_audio=True, file_extension='mp4').fmt_streams[0]
 
-    def download_audio(self):
+    def _download_audio(self):
         if self.audio_object:
             self.audio_object.download(self.audio_download_path)
 
     def _thumbnail_resolution_check(self):
-        return lambda thumbnail_url : thumbnail_url if self.youtube_object.thumbnail_url.replace('defualt.jpg', 'hqdefault.jpg') else self.youtube_object.thumbnail_url
+        return self.youtube_object.thumbnail_url if self.youtube_object.thumbnail_url.replace('defualt.jpg', 'hqdefault.jpg') else self.youtube_object.thumbnail_url
 
-    def download_thumbnail(self):
-        _reshaped_title = "".join(filter(lambda x: x if x not in "~\"#%&*:<>?\/{|}" else False, self.title))
-        urllib.request.urlretrieve(self._thumbnail_resolution_check(), f"{self.thumbnail_download_path}{_reshaped_title}.jpg") # TODO : Make this Asyncable
+    def _download_thumbnail(self):
+        _reshaped_title = "".join(filter(lambda x : x if x not in "~\"#%&*:<>?\/{|}" else False, self.title))
+        urllib.request.urlretrieve(self._thumbnail_resolution_check(), self.thumbnail_download_path + _reshaped_title + ".jpg") # TODO : Make this Asyncable
 
     def download_sequence(self):
-        self.download_audio()
-        self.download_thumbnail()
+        self._download_audio()
+        self._download_thumbnail()
 
 
 # test = VideoHandler("https://www.youtube.com/watch?v=q6EoRBvdVPQ")
 # test.download_sequence()
 
-
+"""
 def youtube_video_getter(youtube_url):
     youtube_streams = YouTube(youtube_url).streams.all()
 
@@ -60,9 +60,9 @@ def youtube_video_getter(youtube_url):
             return print("downlaod end")
 
     return print("err : no audio/mp4 file")
+"""
 
 
-
-youtube_video_getter("https://www.youtube.com/watch?v=q6EoRBvdVPQ")
+# youtube_video_getter("https://www.youtube.com/watch?v=q6EoRBvdVPQ")
 # StreamQuery : Audio_Object
 
