@@ -7,15 +7,25 @@ import os
 class VideoHandler:
 
     def __init__(self, url: str, audio_path="music/", thumbnail_path="picture/"):
-        self.audio_download_path = audio_path if os.getcwd().split('/')[-1] == "MAPP" else "../music"
-        self.thumbnail_download_path = thumbnail_path if os.getcwd().split('/')[-1] == "MAPP" else "../picture"
+        self.audio_download_path = audio_path if os.getcwd().split('/')[-1] == "MAPP" else "../music/"
+        self.thumbnail_download_path = thumbnail_path if os.getcwd().split('/')[-1] == "MAPP" else "../picture/"
 
         self.youtube_object = pytube.YouTube(url)
         self.title = self.youtube_object.title
         self.audio_object = self.youtube_object.streams.filter(only_audio=True, file_extension='mp4').fmt_streams[0]
 
+        print("ready to download : ", url)
+        print("audio path is : ", self.audio_download_path)
+        print("thumbnail path is : ", self.thumbnail_download_path)
+        print("youtube title is : ", self.title)
+        print("audio formatted stream : ", self.audio_object)
+
+    def _already_exists_check(self):
+        return True if os.path.exists(self.audio_download_path + self.title + ".aac") else False
+
     def _download_audio(self):
         if self.audio_object:
+            print("downloading audio file")
             self.audio_object.download(self.audio_download_path)
 
     def _thumbnail_resolution_check(self):
@@ -29,13 +39,20 @@ class VideoHandler:
 
     def _change_extention(self):
         file_name = self.audio_download_path + self.title
+        print(file_name)
         shutil.move(file_name + ".mp4", file_name + ".aac")
 
     def download_sequence(self):
-        self._download_audio()
-        self._change_extention()
-        self._download_thumbnail()
+        if self._already_exists_check():
+            self._download_audio()
+            print("audiofile downloaded")
+            self._change_extention()
+            print("audio extention changed")
+            self._download_thumbnail()
+            print("download ends")
+        else:
+            print("file exists")
 
 
-# VideoHandler(
-#     url="https://www.youtube.com/watch?v=8SnUeAtJ8fQ&index=2&t=0s&list=LLmRv6Hi7SVI01a1SeA6W1ww").download_sequence()
+VideoHandler(
+    url="https://www.youtube.com/watch?v=8SnUeAtJ8fQ&index=2&t=0s&list=LLmRv6Hi7SVI01a1SeA6W1ww").download_sequence()
