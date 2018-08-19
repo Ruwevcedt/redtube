@@ -11,7 +11,7 @@ def charge():
     if request.method == 'POST':
         link = request.form['youtube_link']
 
-        youtube_handler.youtube_video_getter(link)
+        youtube_handler.VideoHandler.download_sequence(link)
 
         return redirect(url_for('player'))
     return render_template('charge.html')
