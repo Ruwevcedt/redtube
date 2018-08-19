@@ -4,7 +4,7 @@ from drawer import app, redirect, render_template, send_file, url_for, login_req
 @app.route('/player')
 @login_required
 def player():
-    # FIXME 'musiclist'
+    # FIXME 'music_list'
     return render_template('player.html', musiclist=music_list) if music_list else redirect(url_for('charge'))
 
 
