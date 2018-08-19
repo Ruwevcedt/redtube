@@ -9,9 +9,6 @@ def charge():
     # FIXME
 
     if request.method == 'POST':
-        link = request.form['youtube_link']
-
-        youtube_handler.VideoHandler.download_sequence(link)
-
+        youtube_handler.VideoHandler(url=request.form['youtube_link']).download_sequence()
         return redirect(url_for('player'))
     return render_template('charge.html')

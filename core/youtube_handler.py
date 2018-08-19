@@ -6,9 +6,9 @@ import os
 
 class VideoHandler:
 
-    def __init__(self, url: str, audio_path="../music/", thumbnail_path="../picture/"):
-        self.audio_download_path = audio_path if os.getcwd() == os.curdir else os.chdir(os.curdir)
-        self.thumbnail_download_path = thumbnail_path if os.getcwd() == os.curdir else os.chdir(os.curdir)
+    def __init__(self, url: str, audio_path="music/", thumbnail_path="picture/"):
+        self.audio_download_path = audio_path if os.getcwd().split('/')[-1] == "MAPP" else "../music"
+        self.thumbnail_download_path = thumbnail_path if os.getcwd().split('/')[-1] == "MAPP" else "../picture"
 
         self.youtube_object = pytube.YouTube(url)
         self.title = self.youtube_object.title
@@ -25,7 +25,7 @@ class VideoHandler:
     def _download_thumbnail(self):
         _reshaped_title = "".join(filter(lambda x: x if x not in "~\"#%&*:<>?\/{|}" else False, self.title))
         urllib.request.urlretrieve(self._thumbnail_resolution_check(),
-                                   self.thumbnail_download_path + _reshaped_title + ".jpg")  # TODO : Make this Asyncable
+                                   f"{self.thumbnail_download_path}{_reshaped_title}.jpg")  # TODO : Make this Asyncable
 
     def _change_extention(self):
         file_name = self.audio_download_path + self.title
@@ -35,3 +35,7 @@ class VideoHandler:
         self._download_audio()
         self._change_extention()
         self._download_thumbnail()
+
+
+# VideoHandler(
+#     url="https://www.youtube.com/watch?v=8SnUeAtJ8fQ&index=2&t=0s&list=LLmRv6Hi7SVI01a1SeA6W1ww").download_sequence()
