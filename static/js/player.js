@@ -182,15 +182,10 @@ jQuery(function ($) {
                     npNext.style.marginLeft = '0px';
                 }
 
-                if (tracks[id].capture == 'None.') {
-                    albart.src = '/picture/pic01.jpg';
-                } else {
-                    albart.src = tracks[id].capture;
-                }
-
                 index = id;
                 aud_dur = tracks[id].length;
-                audio.src = tracks[id].path;
+                audio.src = "/player/" + tracks[id].name;  // Set Audio Location
+                albart.src = "/picture/" + tracks[id].name; // Set AlbumArt
                 duration_of_audio.innerHTML = aud_dur;
             },
             playTrack = function (id) {

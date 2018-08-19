@@ -1,11 +1,7 @@
 import re
 import subprocess
 import glob
-import shutil
 import os
-# from drawer import music_list
-
-# musiclist = []  # TODO : change this to object
 
 
 class Music:
@@ -25,7 +21,7 @@ class Music:
         "music_duration"
     )
 
-    def __init__(self, file_name: str, capture_path: str = "../picture"):
+    def __init__(self, file_name: str, capture_path: str = "picture"):
         self.file_name = file_name
         self.capture_path = os.path.abspath(capture_path)
         self.absolute_file_name = os.path.abspath(self.file_name)
@@ -51,8 +47,8 @@ class Music:
 
     @property
     def capture(self):
-        capture_path = f"{self.name}.jpg"
-        return capture_path if os.path.exists(capture_path) else f"picture/pic01.jpg"
+        capture_path = f"{self.capture_path}/{self.name}.jpg"
+        return capture_path if os.path.exists(capture_path) else f"{self.capture_path}/pic01.jpg"
 
     def get_audio_duration(self) -> str:
         """
@@ -120,6 +116,3 @@ class MusicList:
 
     def __len__(self):
         return len(self.music_file_list)
-
-
-a = MusicList("../music")

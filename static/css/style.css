@@ -85,7 +85,7 @@ main {
 }
 .background:before {
   content: "";
-  background: url("/picture/pic02.jpg") center center/cover;
+  background: url("/static/img/background.jpg") center center/cover;
   -webkit-filter: blur(2px);
           filter: blur(2px);
 }
