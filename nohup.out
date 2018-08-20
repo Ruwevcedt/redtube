@@ -97,3 +97,37 @@ Traceback (most recent call last):
   File "/home/ruwevcedt/OriginalSinMusic/redtube/core/_login.py", line 49, in username_check
     return True if uid[:6] in [x[:6] for x in self.user_data.keys()] else False # TODO : stop duct taping
 TypeError: 'NoneType' object is not subscriptable
+192.168.1.6 - - [2018-08-20 23:43:01] "GET / HTTP/1.0" 500 431 0.004127
+[2018-08-20 23:52:03,717] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask_login/utils.py", line 259, in decorated_view
+    elif not current_user.is_authenticated:
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/werkzeug/local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/werkzeug/local.py", line 306, in _get_current_object
+    return self.__local()
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask_login/utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask_login/utils.py", line 335, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask_login/login_manager.py", line 355, in _load_user
+    return self._load_from_request(request)
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/env/lib/python3.6/site-packages/flask_login/login_manager.py", line 412, in _load_from_request
+    user = self.request_callback(request)
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/core/_login.py", line 79, in request_loader
+    if not users.username_check(username):
+  File "/home/ruwevcedt/OriginalSinMusic/redtube/core/_login.py", line 49, in username_check
+    return True if uid[:6] in [x[:6] for x in self.user_data.keys()] else False # TODO : stop duct taping
+TypeError: 'NoneType' object is not subscriptable

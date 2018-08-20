@@ -1,10 +1,10 @@
-music/*.mp3
-music/*.mp4
-music/*.aac
+music/*
+picture/*
 picture/.DS_Store
 music/.DS_Store
 flask_session/ 
 legacy/
+env/
 upload/
 .idea/
 .DS_Store
