@@ -1,5 +1,33 @@
 from flask import Flask, g, Response, render_template, send_file, request, redirect, session, escape, redirect, url_for
 from drawer import app, flask_login, login_manager
+import datetime
+
+
+class EncodeObj:
+    def __init__(self, secret_key: str):
+        self.secret_key = secret_key
+        self.secret_key_byte = self.__str_to_byte_array(self.secret_key)
+
+    @staticmethod
+    def __str_to_byte_array(data: str) -> [int]:
+        return [ord(x) for x in data]
+
+    @staticmethod
+    def __xor_encode(key: [int], _value: [int]) -> str:
+        return "".join([chr(_^__) for _, __ in zip(key, _value)])
+
+    @property
+    def __salted_key(self) -> str:
+        return self.__xor_encode(self.secret_key_byte, [ord(x) for x in str(datetime.datetime.now().date())])
+
+    def encoded_username(self, username: str) -> str:
+        return self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key))
+
+    def decoded_data(self, encoded_data: str) -> str:
+        return self.__xor_encode(self.__str_to_byte_array(encoded_data), self.__str_to_byte_array(self.__salted_key))
+
+
+cryption = EncodeObj(secret_key="OriginalSin")
 
 
 class SinUsers:
@@ -22,7 +50,7 @@ class SinUsers:
 
 
 users = SinUsers()
-users.add_user("asdf", "asdf")      # TODO : Load Users from mongodb
+users.add_user("Arheneos", "asdf")      # TODO : Load Users from mongodb
 
 
 class User(flask_login.UserMixin):
@@ -45,7 +73,7 @@ def request_loader(request):
     print(username)
     if not users.username_check(username):
         return
-    print("user_loader : {}".format(username))
+    print(f"user_loader : {username}")
     user = User()
     user.id = username
 
@@ -73,6 +101,19 @@ def login_function():
             return render_template("login.html")
         return redirect("/")
     return render_template("login.html")
+
+
+@app.route('/login/<path:path>')
+def login_function_(path):
+    print("api_login_function")
+    print(path)
+    crypted = cryption.decoded_data(path)
+    if users.username_check(crypted):
+        user = User()
+        user.id = crypted
+        flask_login.login_user(user)
+        return redirect("/player")
+    return redirect("/login")
 
 
 @login_manager.unauthorized_handler
