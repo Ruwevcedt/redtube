@@ -46,8 +46,7 @@ class SinUsers:
         return self.user_data[uid] == pw
 
     def username_check(self, uid: str) -> bool:
-        return True if uid in self.user_data.keys() else False
-
+        return True if uid[:6] == [x[:6] for x in self.user_data.keys()] else False # TODO : stop duct taping
 
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
