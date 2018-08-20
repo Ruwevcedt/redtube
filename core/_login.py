@@ -51,6 +51,12 @@ class SinUsers:
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
 users.add_user("Ruwevcedt", cryption.encoded_username("Ruwevcedt"))
+users.add_user("boco114", cryption.encoded_username("boco114"))
+users.add_user("Horo", cryption.encoded_username("Horo"))
+users.add_user("collride", cryption.encoded_username("collride"))
+users.add_user("AngryBoy9623", cryption.encoded_username("AngryBoy9623"))
+users.add_user("BWwaffle", cryption.encoded_username("BWwaffle"))
+
 
 class User(flask_login.UserMixin):
     pass
