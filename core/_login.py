@@ -50,8 +50,8 @@ class SinUsers:
 
 
 users = SinUsers()
-users.add_user("Arheneos", "_")  # TODO : Load Users from mongodb
-users.add_user("Ruwevcedt", "_")
+users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
+users.add_user("Ruwevcedt", cryption.encoded_username("Ruwevcedt"))
 
 class User(flask_login.UserMixin):
     pass
