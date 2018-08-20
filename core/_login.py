@@ -27,7 +27,7 @@ class EncodeObj:
         return self.__xor_encode(self.__str_to_byte_array(encoded_data), self.__str_to_byte_array(self.__salted_key))
 
 
-cryption = EncodeObj(secret_key="OriginalSin")
+cryption = EncodeObj(secret_key="original_sin")
 
 
 class SinUsers:
@@ -50,8 +50,8 @@ class SinUsers:
 
 
 users = SinUsers()
-users.add_user("Arheneos", "asdf")      # TODO : Load Users from mongodb
-
+users.add_user("Arheneos", "_")  # TODO : Load Users from mongodb
+users.add_user("Ruwevcedt", "_")
 
 class User(flask_login.UserMixin):
     pass
@@ -84,22 +84,7 @@ def request_loader(request):
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login_function():
-    print("login_function")
-    if request.method == 'GET':
-        return render_template("login.html")
-    elif request.method == "POST":
-        username = request.form['username']
-        print(username)
-        try:
-            if users.password_check(username, request.form['password']):
-                user = User()
-                user.id = username
-                flask_login.login_user(user)
-                return redirect("/")
-        except KeyError:
-            return render_template("login.html")
-        return redirect("/")
+def fake_login_page():
     return render_template("login.html")
 
 
@@ -107,15 +92,14 @@ def login_function():
 def login_function_(path):
     print("api_login_function")
     print(path)
-    crypted = cryption.decoded_data(path)
-    if users.username_check(crypted):
+    decrypted = cryption.decoded_data(path)
+    if users.username_check(decrypted):
         user = User()
-        user.id = crypted
+        user.id = decrypted
         flask_login.login_user(user)
         return redirect("/player")
     return redirect("/login")
 
-
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return redirect(url_for('login_function'))
+    return redirect(url_for('fake_login_page'))
