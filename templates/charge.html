@@ -1,19 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <meta charset="UTF-8">
-    <title>charge</title>
+    <title>Upload</title>
 </head>
-<body>
-<p> pump your beat! </p>
+<body style="margin: 0px; padding: 0px;">
+	<div style="padding: 15px;">
+	
+	<h1> YouTube Croller </h1>
+	<hr>
 
-<form action="" method="POST">
-    <div class="container">
-        <label for="youtube_link"><b>put links</b></label>
-        <input type="text" placeholder="Enter YouTube links" name="youtube_link" required>
-        <button type="submit">submit</button>
-    </div>
-</form>
+	</div>
+	
+	<div class="container">
+		<div class="row" style="margin: 0px; padding: 0px;">
+			<div class="col-md-1" style="text-align: center;"></div>
+		<div class="col-md-10" style="text-align: center;">
+	
+		<form action="" method="POST">
+				<label for="youtube_link"><b>Enter YouTube links</b></label>
+				<br>
+        <input type="text" placeholder="https://www.youtube.com/..." name="youtube_link" class="form-control" width="100%" style="padding: 10px;">
+				<br>
+        <button type="submit" class="btn btn-default">Upload</button>
+		</form>
 
+		</div>
+		<div class="col-md-1" style="text-align: center;"></div>
+	</div>
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
