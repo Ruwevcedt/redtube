@@ -1,24 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>login</title>
+  <title>Original Sin Music</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.4/css/mdb.min.css" rel="stylesheet">
+<style>
+    @media screen and (min-width: 767px) {
+.row.content {
+    height: 100vh;
+}
+/* Set gray background color and 100% height */
+.sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+}
+/* Set black background color, white text and some padding */
+footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+}
+.dev {
+    border-style: dashed;
+    border-color: #5DF;
+    border-width: 2px;
+}
+.bg {
+    /* The image used */
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+body.login {
+    height: 100%;
+    margin: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+div.main {
+    height: 100%;
+    width: 90%;
+    margin: 0px 5% 0px 5%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.center {
+    width: 100%;
+    align-self: center;
+    margin: auto;
+}
+div.login_container{
+    height: 100%;
+    width: 100%
+}
+div.main_login {
+    height: 50%;
+    width: 40%;
+    margin: 16% 30% 25% 30%;
+    background-color: #FFF;
+    padding: 10px;
+    box-shadow: 5px 10px 10px #000000;
+}
+.chart {
+    height: 30%;
+    width: 40%;
+}
+div.polaroid {
+    margin: 30px;
+    position: relative;
+    align-items: center;
+    width: 480px;
+    height: 330px;
+    padding: 25px 25px 0px 25px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+div.safari {
+    width: 74%;
+    height: auto;
+}
+.ani_polar {
+height: 306px; width: 424px; padding: 0px;
+}
+.img_polar {
+height: 216px; width: 384px; margin: 20px 20px 20px 20px;
+}
+.pcd_polar {
+width: 424px; text-align: center; padding-top: 10px;
+}
+video {
+    width: 640px;
+    height: auto;
+}
+.mobile {
+background-color: #fff; height: 100%; margin-bottom: 10px;
+}
+.ani_detail {
+overflow-y : auto;
+}
+}
+</style>
 </head>
-<body>
-<p>login</p>
-
-<form method = "POST">
-
-  <div class="container">
-    <label for="username"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username" required>
-
-    <label for="password"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-
-    <button type="submit">Login</button>
-  </div>
-
+<body class="login">
+<div class="container" style="padding: 50px;">
+<div class="row login">
+<div class="main_login animated fadeIn">
+<h1 class="animated fadeIn mb-4">Original Sin Music
+</h1>
+<p>서버 접속을 위해 로그인이 필요</p>
+<form method="POST">
+    <div class="form-group">
+      <label for="usr">ID:</label>
+      <input name="username" type="text" class="form-control" id="usr" required>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input name="password" type="password" class="form-control" id="pwd" required>
+    </div>
+    <div class="center" style="padding: 0% 41%">
+    <input type="submit" class="btn btn-info" value="Login">
+    </div>
 </form>
+</div>
+</div>
+</div>
 </body>
 </html>

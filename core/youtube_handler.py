@@ -23,8 +23,7 @@ class VideoHandler:
             self.audio_object.download(self.audio_download_path)
 
     def _thumbnail_resolution_check(self):
-        return self.youtube_object.thumbnail_url if self.youtube_object.thumbnail_url.replace('defualt.jpg',
-                                                                                              'hqdefault.jpg') else self.youtube_object.thumbnail_url
+        return self.youtube_object.thumbnail_url if self.youtube_object.thumbnail_url.replace('defualt.jpg', 'hqdefault.jpg') else self.youtube_object.thumbnail_url
 
     def _download_thumbnail(self):
         urllib.request.urlretrieve(self._thumbnail_resolution_check(),
@@ -39,7 +38,4 @@ class VideoHandler:
             self._download_audio() if not self._already_exists_check(extention="mp4") else False
             self._change_extention()
             self._download_thumbnail()
-
             music_list.update()
-        else:
-            pass
