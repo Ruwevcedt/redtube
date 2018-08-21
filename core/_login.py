@@ -103,6 +103,7 @@ def login_function_(path: str):
     if path_check:
         user = User()
         user.id = path_check[0]
+        user.is_authenticated = True
         flask_login.login_user(user)
         return redirect("/player")
     return redirect("/login")
