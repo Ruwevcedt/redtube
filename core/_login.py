@@ -56,6 +56,7 @@ users.add_user("Horo", cryption.encoded_username("Horo"))
 users.add_user("collride", cryption.encoded_username("collride"))
 users.add_user("AngryBoy9623", cryption.encoded_username("AngryBoy9623"))
 users.add_user("BWwaffle", cryption.encoded_username("BWwaffle"))
+users.add_user("test", "test")
 
 
 class User(flask_login.UserMixin):
@@ -90,6 +91,11 @@ def request_loader(request):
 
 @app.route('/login', methods=['GET', 'POST'])
 def fake_login_page():
+    if request.method == 'POST' and request.form['username'] == 'test':
+        user = User()
+        user.id = 'test'
+        flask_login.login_user(user)
+        return redirect('/player')
     return render_template("login.html")
 
 

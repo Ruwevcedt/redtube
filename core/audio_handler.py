@@ -60,7 +60,7 @@ class Music:
         :return: Audio Duration str(second)
         """
         # TODO : Make Below Asyncable
-        process = subprocess.Popen(['/usr/bin/ffmpeg', '-i', self.absolute_file_name],
+        process = subprocess.Popen(['/usr/local/bin/ffmpeg', '-i', self.absolute_file_name],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.STDOUT)
         stdout, stderr = process.communicate()
