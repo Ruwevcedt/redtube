@@ -12,9 +12,15 @@ class VideoHandler:
         self.audio_download_path = audio_path
         self.thumbnail_download_path = thumbnail_path
 
+        self._path_exists_check(self.audio_download_path)
+        self._path_exists_check(self.thumbnail_download_path)
+
         self.youtube_object = pytube.YouTube(url)
         self.title = "".join(filter(lambda x: x if x not in "~\"\'#%&*:<>?\/{|}" else False, self.youtube_object.title))
         self.audio_object = self.youtube_object.streams.filter(only_audio=True, file_extension='mp4').fmt_streams[0]
+
+    def _path_exists_check(self, path):
+        os.mkdir(path) if not os.path.exists(path) else False
 
     def _already_exists_check(self, extension: str):
         return True if os.path.exists(self.audio_download_path + self.title + extension) else False
