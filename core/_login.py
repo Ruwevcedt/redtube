@@ -99,9 +99,7 @@ def fake_login_page():
 
 @app.route('/login/<path:path>')
 def login_function_(path: str):
-    path_check = users.username_check(cryption.encoded_username(path))
-    print(cryption.encoded_username(path))
-    print(path_check)
+    path_check = users.username_check(path)
     if path_check:
         user = User()
         user.id = path_check[0]
@@ -111,4 +109,5 @@ def login_function_(path: str):
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
+    print("are you fake user?")
     return redirect(url_for('fake_login_page'))
