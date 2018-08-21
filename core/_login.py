@@ -24,9 +24,6 @@ class EncodeObj:
     def encoded_username(self, username: str) -> str:
         return md5(self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)).encode('utf-8'))
 
-    def decoded_username(self, encoded_data: str) -> str:
-        return md5(str(encoded_data).encode('utf-8'))
-
 cryption = EncodeObj(secret_key="original_sin")
 
 
@@ -46,7 +43,7 @@ class SinUsers:
         return self.user_data[uid] == pw
 
     def username_check(self, encoded_data: str) -> [str]:
-        return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id) == cryption.decoded_username(encoded_data)]
+        return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id) == encoded_data]
 
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
