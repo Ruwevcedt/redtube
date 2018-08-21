@@ -1,4 +1,5 @@
 from drawer import app, redirect, render_template, send_file, url_for, login_required, music_list
+import os
 
 
 @app.route('/player')
@@ -10,6 +11,4 @@ def player():
 @app.route('/player/<path:path>')
 @login_required
 def play_music(path):
-    return send_file(music_list.search(path).file_path, mimetype='Content-Type: audio/mp4; charset=utf32')
-
-
+    return send_file(music_list.search(os.path.splitext(path)[0]).file_path, mimetype='Content-Type: audio/mp4; charset=utf32')

@@ -184,7 +184,7 @@ jQuery(function ($) {
 
                 index = id;
                 aud_dur = tracks[id].length;
-                audio.src = "/player/" + tracks[id].name;  // Set Audio Location
+                audio.src = "/player/" + tracks[id].name + ".aac";  // Set Audio Location
                 albart.src = "/picture/" + tracks[id].name; // Set AlbumArt
                 duration_of_audio.innerHTML = aud_dur;
             },

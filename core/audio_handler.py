@@ -2,6 +2,7 @@ import re
 import subprocess
 import glob
 import os
+import sys
 
 
 class Music:
@@ -18,7 +19,8 @@ class Music:
         "file_name_without_extension",
         "extension",
         "capture_path",
-        "music_duration"
+        "music_duration",
+        "ffmpeg_location",
     )
 
     def __init__(self, file_name: str, capture_path: str = "picture"):
@@ -28,6 +30,7 @@ class Music:
         self.file_name_without_extension, self.extension = os.path.splitext(self.file_name)
         self.file_name_without_extension = os.path.split(self.file_name_without_extension)[1]
         self.music_duration = None
+        self.ffmpeg_location = "/usr/local/bin/ffmpeg" if sys.platform == "darwin" else "/usr/bin/ffmpeg"
 
     @property
     def length(self):
@@ -60,7 +63,7 @@ class Music:
         :return: Audio Duration str(second)
         """
         # TODO : Make Below Asyncable
-        process = subprocess.Popen(['/usr/local/bin/ffmpeg', '-i', self.absolute_file_name],
+        process = subprocess.Popen([self.ffmpeg_location, '-i', self.absolute_file_name],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.STDOUT)
         stdout, stderr = process.communicate()
@@ -101,7 +104,7 @@ class MusicList:
         self.music_file_list = [Music(x) for x in music_list]
         self.name_list = [x.name for x in self.music_file_list]
 
-    def search(self, name):
+    def search(self, name) -> Music:
         try:
             return self.music_file_list[self.name_list.index(name)]
         except ValueError:
