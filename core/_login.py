@@ -56,7 +56,7 @@ users.add_user("Horo", cryption.encoded_username("Horo"))
 users.add_user("collride", cryption.encoded_username("collride"))
 users.add_user("AngryBoy9623", cryption.encoded_username("AngryBoy9623"))
 users.add_user("BWwaffle", cryption.encoded_username("BWwaffle"))
-users.add_user("test", "test")
+users.add_user("test", "test") # delete these on real use
 
 
 class User(flask_login.UserMixin):
