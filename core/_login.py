@@ -43,7 +43,7 @@ class SinUsers:
         return self.user_data[uid] == pw
 
     def username_check(self, uid: str) -> [str]:
-        return [user_id for user_id, user_password in self.user_data.items() if user_password == uid]
+        return [user_id for user_id, cryption.encoded_username(user_id) in self.user_data.keys() if cryption.encoded_username(user_id) == uid]
 
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
