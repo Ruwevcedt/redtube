@@ -1,7 +1,7 @@
 from flask import Flask, g, Response, render_template, send_file, request, redirect, session, escape, redirect, url_for
 from drawer import app, flask_login, login_manager
 import datetime
-from hashlib import md5
+import hashlib
 
 
 class EncodeObj:
@@ -22,7 +22,8 @@ class EncodeObj:
         return self.__xor_encode(self.secret_key_byte, [ord(x) for x in str(datetime.datetime.now().date())])
 
     def encoded_username(self, username: str) -> str:
-        return md5(self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)).encode('utf-8'))
+        checksum =  hashlib.md5(self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)).encode('utf-8'))
+        return checksum.digest()
 
 cryption = EncodeObj(secret_key="original_sin")
 
@@ -98,7 +99,9 @@ def fake_login_page():
 
 @app.route('/login/<path:path>')
 def login_function_(path: str):
-    path_check = users.username_check(path)
+    path_check = users.username_check(cryption.encoded_username(path))
+    print(cryption.encoded_username(path))
+    print(path_check)
     if path_check:
         user = User()
         user.id = path_check[0]
