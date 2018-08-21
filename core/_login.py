@@ -15,21 +15,23 @@ class EncodeObj:
 
     @staticmethod
     def __xor_encode(key: [int], _value: [int]) -> str:
-        return "".join([chr(_^__) for _, __ in zip(key, _value)])
+        return "".join([chr(_ ^ __) for _, __ in zip(key, _value)])
 
     @property
     def __salted_key(self) -> str:
         return self.__xor_encode(self.secret_key_byte, [ord(x) for x in str(datetime.datetime.now().date())])
 
     def encoded_username(self, username: str) -> str:
-        checksum =  hashlib.md5(self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)).encode('utf-8'))
-        return checksum.digest()
+        checksum = hashlib.md5(
+            self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)).encode(
+                'utf-8'))
+        return str(checksum.digest()).replace('/', '').replace('\\', '')
+
 
 cryption = EncodeObj(secret_key="original_sin")
 
 
 class SinUsers:
-
     __slots__ = (
         "user_data"
     )
@@ -44,7 +46,8 @@ class SinUsers:
         return self.user_data[uid] == pw
 
     def username_check(self, encoded_data: str) -> [str]:
-        return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id.encode('utf-8')) == encoded_data]
+        return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id) == encoded_data]
+
 
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
@@ -54,7 +57,7 @@ users.add_user("Horo", cryption.encoded_username("Horo"))
 users.add_user("collride", cryption.encoded_username("collride"))
 users.add_user("AngryBoy9623", cryption.encoded_username("AngryBoy9623"))
 users.add_user("BWwaffle", cryption.encoded_username("BWwaffle"))
-users.add_user("test", "test") # delete these on real use
+users.add_user("test", "test")  # delete these on real use
 
 
 class User(flask_login.UserMixin):
@@ -63,9 +66,6 @@ class User(flask_login.UserMixin):
 
 @login_manager.user_loader
 def user_loader(username):
-    # print("user_loader : {}".format(username))
-    if not users.username_check(username):
-        return
     user = User()
     user.id = username
     return user
@@ -75,43 +75,42 @@ def user_loader(username):
 def request_loader(request):
     username = request.form.get('username')
     print(username)
-    if not users.username_check(username):
+    if not (username, request.form['password']) in users.user_data.items():
         return
     print(f"user_loader : {username}")
     user = User()
     user.id = username
+    flask_login.login_user(user)
 
     # DO NOT ever store passwords in plaintext and always compare password
     # hashes using constant-time comparison!
-    user.is_authenticated = users.password_check(username, request.form['password'])
-    return user
+    user.is_authenticated = True
+    return user.id
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def fake_login_page():
+def login_page():
     if request.method == 'POST' and request.form['username'] == 'test':
-        user = User()
-        user.id = 'test'
-        flask_login.login_user(user)
+        _user = user_loader('test')
+        flask_login.login_user(_user)
         return redirect('/player')
     return render_template("login.html")
 
 
 @app.route('/login/<path:path>')
 def login_function_(path: str):
-    path_check = users.username_check(path)
-    print(path)
-    print(path_check)
-    if path_check:
-        user = User()
-        user.id = path_check[0]
-        print(user.id)
-        user.is_authenticated = True
-        flask_login.login_user(user)
+    check_sum = users.username_check(
+        path if not '/' in path or '\\' in path else path.replace('/', '').replace('\\', ''))
+    # if for test
+    if check_sum:
+        _user = user_loader(check_sum[0])
+        flask_login.login_user(_user)
         return redirect("/player")
     return redirect("/login")
 
+
 @login_manager.unauthorized_handler
 def unauthorized_handler():
+    print(flask_login.current_user)
     print("are you fake user?")
-    return redirect(url_for('fake_login_page'))
+    return redirect(url_for('login_page'))
