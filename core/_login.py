@@ -44,7 +44,7 @@ class SinUsers:
         return self.user_data[uid] == pw
 
     def username_check(self, encoded_data: str) -> [str]:
-        return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id) == encoded_data]
+        return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id.encode('utf-8')) == encoded_data]
 
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
@@ -100,9 +100,12 @@ def fake_login_page():
 @app.route('/login/<path:path>')
 def login_function_(path: str):
     path_check = users.username_check(path)
+    print(path)
+    print(path_check)
     if path_check:
         user = User()
         user.id = path_check[0]
+        print(user.id)
         user.is_authenticated = True
         flask_login.login_user(user)
         return redirect("/player")
