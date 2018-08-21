@@ -1,6 +1,7 @@
 from flask import Flask, g, Response, render_template, send_file, request, redirect, session, escape, redirect, url_for
 from drawer import app, flask_login, login_manager
 import datetime
+from hashlib import md5
 
 
 class EncodeObj:
@@ -21,11 +22,7 @@ class EncodeObj:
         return self.__xor_encode(self.secret_key_byte, [ord(x) for x in str(datetime.datetime.now().date())])
 
     def encoded_username(self, username: str) -> str:
-        return self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key))
-
-    def decoded_data(self, encoded_data: str) -> str:
-        return self.__xor_encode(self.__str_to_byte_array(encoded_data), self.__str_to_byte_array(self.__salted_key))
-
+        return md5(self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)))
 
 cryption = EncodeObj(secret_key="original_sin")
 
@@ -45,8 +42,8 @@ class SinUsers:
     def password_check(self, uid: str, pw: str) -> bool:
         return self.user_data[uid] == pw
 
-    def username_check(self, uid: str) -> bool:
-        return True if uid[:6] in [x[:6] for x in self.user_data.keys()] else False # TODO : stop duct taping
+    def username_check(self, uid: str) -> [str]:
+        return [user_id for user_id, user_password in self.user_data.items() if user_password == uid]
 
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
@@ -101,12 +98,10 @@ def fake_login_page():
 
 @app.route('/login/<path:path>')
 def login_function_(path):
-    print("api_login_function")
-    print(path)
-    decrypted = cryption.decoded_data(path)
-    if users.username_check(decrypted):
+    path_check = users.username_check(path)
+    if path_check:
         user = User()
-        user.id = decrypted
+        user.id = path_check[0]
         flask_login.login_user(user)
         return redirect("/player")
     return redirect("/login")
