@@ -97,8 +97,8 @@ def fake_login_page():
 
 
 @app.route('/login/<path:path>')
-def login_function_(path):
-    path_check = users.username_check(path)
+def login_function_(path: str):
+    path_check = users.username_check(md5(path.encode('utf-8')))
     if path_check:
         user = User()
         user.id = path_check[0]
