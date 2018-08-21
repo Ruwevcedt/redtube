@@ -25,7 +25,7 @@ class EncodeObj:
         return md5(self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)).encode('utf-8'))
 
     def decoded_username(self, encoded_data: str) -> str:
-        return md5(encoded_data.encode('utf-8'))
+        return md5(str(encoded_data).encode('utf-8'))
 
 cryption = EncodeObj(secret_key="original_sin")
 
