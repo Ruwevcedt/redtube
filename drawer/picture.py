@@ -1,7 +1,8 @@
-from drawer import app, send_file, login_required, music_list
+from drawer import app, send_file, login_required, music_list, flask_login
 
 
 @app.route('/picture/<image_name>')
 @login_required
 def send_image(image_name):
-    return send_file(music_list.search(image_name).capture)
+    current = str(flask_login.current_user.id)
+    return send_file(music_list[current].search(image_name).capture)

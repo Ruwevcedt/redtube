@@ -78,7 +78,7 @@ def request_loader(path):
         path if not '/' in path or '\\' in path else path.replace('/', '').replace('\\', ''))
     if check_sum:
         flask_login.login_user(user_loader(check_sum[0]))
-        music_list.path_assign(f"music/{flask_login.current_user.get_id()}/")
+        # music_list[check_sum[0]].path_assign(f"music/{check_sum[0]}/")
         return redirect(url_for('player'))
     return redirect(url_for('login_page'))
 
@@ -87,7 +87,7 @@ def request_loader(path):
 def login_page():
     if request.method == 'POST' and request.form['username'] == 'test':
         flask_login.login_user(user_loader('test'))
-        music_list.path_assign("music/test/")
+        # music_list["test"].path_assign("music/test/")
         return redirect(url_for('player'))
     return render_template("login.html")
 

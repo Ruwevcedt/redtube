@@ -9,7 +9,7 @@ class VideoHandler:
 
     def __init__(self, user: str, url: str, audio_path="music/", thumbnail_path="picture/"):
         self._path_assign(user, audio_path, thumbnail_path)
-
+        self.user = user
         self.youtube_object = pytube.YouTube(url)
         self.title = "".join(filter(lambda x: x if x not in "~\"\'#%&*:<>?\/{|},\." else False, self.youtube_object.title))
         self.audio_object = self.youtube_object.streams.filter(only_audio=True, file_extension='mp4').fmt_streams[0]
@@ -39,7 +39,7 @@ class VideoHandler:
     def _path_assign(self, user, audio_path, thumbnail_path):
         try:
             self.audio_download_path = f"{audio_path}{user}/"
-            self.thumbnail_download_path = f"{thumbnail_path}{user}/"
+            self.thumbnail_download_path = thumbnail_path
         except AttributeError:
             self.audio_download_path = audio_path
             self.thumbnail_download_path = thumbnail_path
@@ -51,4 +51,4 @@ class VideoHandler:
             self._download_audio() if not self._already_exists_check(extension=".mp4") else False
             self._change_extension()
             self._download_thumbnail()
-            music_list.update()
+            music_list[self.user].update()

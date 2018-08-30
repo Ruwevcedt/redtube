@@ -7,7 +7,17 @@ import os
 
 # Music Init
 
-music_list = MusicList("music/")
+music_list = dict(
+    Angryboy9623=MusicList("music/Angryboy9623/"),
+    Arheneos=MusicList("music/Arheneos/"),
+    boco114=MusicList("music/boco114/"),
+    BWwaffle=MusicList("music/BWwaffle/"),
+    collride=MusicList("music/collride/"),
+    Horo=MusicList("music/Horo/"),
+    hustle0302=MusicList("music/hustle0302/"),
+    Ruwevcedt=MusicList("music/Ruwevcedt/"),
+    test=MusicList("music/test/")
+)
 
 # Music Init
 
