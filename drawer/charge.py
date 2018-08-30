@@ -11,6 +11,7 @@ def charge():
     def download(user: str, url: str):
         youtube_handler.VideoHandler(user=user, url=url).download_sequence()
 
+
     if request.method == 'POST':
         worker = threading.Thread(target=download, args=(current, request.form['youtube_link'],))
         worker.start()
