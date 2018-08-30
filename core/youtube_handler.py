@@ -1,19 +1,14 @@
-from drawer import music_list
+from drawer import flask_login, music_list
 import pytube
 import urllib
 import shutil
 import os
-import threading
 
 
 class VideoHandler:
 
-    def __init__(self, url: str, audio_path="music/", thumbnail_path="picture/"):
-        self.audio_download_path = audio_path
-        self.thumbnail_download_path = thumbnail_path
-
-        self._path_exists_check(self.audio_download_path)
-        self._path_exists_check(self.thumbnail_download_path)
+    def __init__(self, user: str, url: str, audio_path="music/", thumbnail_path="picture/"):
+        self._path_assign(user, audio_path, thumbnail_path)
 
         self.youtube_object = pytube.YouTube(url)
         self.title = "".join(filter(lambda x: x if x not in "~\"\'#%&*:<>?\/{|},\." else False, self.youtube_object.title))
@@ -37,13 +32,23 @@ class VideoHandler:
         urllib.request.urlretrieve(self._thumbnail_resolution_check(),
                                    f"{self.thumbnail_download_path}{self.title}.jpg")
 
-    def _change_extention(self):
+    def _change_extension(self):
         file_name = self.audio_download_path + self.title
         shutil.move(file_name + ".mp4", file_name + ".aac")
+
+    def _path_assign(self, user, audio_path, thumbnail_path):
+        try:
+            self.audio_download_path = f"{audio_path}{user}/"
+            self.thumbnail_download_path = f"{thumbnail_path}{user}/"
+        except AttributeError:
+            self.audio_download_path = audio_path
+            self.thumbnail_download_path = thumbnail_path
+        self._path_exists_check(self.audio_download_path)
+        self._path_exists_check(self.thumbnail_download_path)
 
     def download_sequence(self):
         if not self._already_exists_check(extension=".aac"):
             self._download_audio() if not self._already_exists_check(extension=".mp4") else False
-            self._change_extention()
+            self._change_extension()
             self._download_thumbnail()
             music_list.update()

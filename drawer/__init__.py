@@ -5,6 +5,12 @@ from flask_login import login_required
 import os
 
 
+# Music Init
+
+music_list = MusicList("music/")
+
+# Music Init
+
 app = Flask(__name__)
 app.template_folder = "../templates"
 app.static_folder = "../static"
@@ -18,12 +24,6 @@ login_manager.init_app(app)
 from core import _login
 
 # Login Function Setting
-
-# Music Init
-
-music_list = MusicList("music/")
-
-# Music Init
 
 
 from drawer import index

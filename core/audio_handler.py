@@ -100,9 +100,16 @@ class MusicList:
 
     def update(self):
         music_list = list(filter(lambda x: x if os.path.splitext(x)[1].lower() in self.available_extension else False
-                                 , glob.glob(f"{self.music_folder}/*")))
+                                 , glob.glob(f"{self.music_folder}*")))
         self.music_file_list = [Music(x) for x in music_list]
         self.name_list = [x.name for x in self.music_file_list]
+
+    def path_assign(self, music_folder):
+        try:
+            self.music_folder = music_folder
+            self.update()
+        except AttributeError:
+            pass
 
     def search(self, name) -> Music:
         try:

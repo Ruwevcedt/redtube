@@ -1,5 +1,6 @@
 from flask import Flask, g, Response, render_template, send_file, request, redirect, session, escape, redirect, url_for
-from drawer import app, flask_login, login_manager
+from drawer import app, flask_login, login_manager, music_list
+from core import audio_handler
 import datetime
 import hashlib
 
@@ -28,9 +29,6 @@ class EncodeObj:
         return str(checksum.digest()).replace('/', '').replace('\\', '')
 
 
-cryption = EncodeObj(secret_key="original_sin")
-
-
 class SinUsers:
     __slots__ = (
         "user_data"
@@ -48,6 +46,8 @@ class SinUsers:
     def username_check(self, encoded_data: str) -> [str]:
         return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id) == encoded_data]
 
+
+cryption = EncodeObj(secret_key="original_sin")
 
 users = SinUsers()
 users.add_user("Arheneos", cryption.encoded_username("Arheneos"))  # TODO : Load Users from mongodb
@@ -72,45 +72,26 @@ def user_loader(username):
 
 
 @login_manager.request_loader
-def request_loader(request):
-    username = request.form.get('username')
-    print(username)
-    if not (username, request.form['password']) in users.user_data.items():
-        return
-    print(f"user_loader : {username}")
-    user = User()
-    user.id = username
-    flask_login.login_user(user)
-
-    # DO NOT ever store passwords in plaintext and always compare password
-    # hashes using constant-time comparison!
-    user.is_authenticated = True
-    return user.id
+@app.route('/login/<path:path>')
+def request_loader(path):
+    check_sum = users.username_check(
+        path if not '/' in path or '\\' in path else path.replace('/', '').replace('\\', ''))
+    if check_sum:
+        flask_login.login_user(user_loader(check_sum[0]))
+        music_list.path_assign(f"music/{flask_login.current_user.get_id()}/")
+        return redirect(url_for('player'))
+    return redirect(url_for('login_page'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST' and request.form['username'] == 'test':
-        _user = user_loader('test')
-        flask_login.login_user(_user)
-        return redirect('/player')
+        flask_login.login_user(user_loader('test'))
+        music_list.path_assign("music/test/")
+        return redirect(url_for('player'))
     return render_template("login.html")
-
-
-@app.route('/login/<path:path>')
-def login_function_(path: str):
-    check_sum = users.username_check(
-        path if not '/' in path or '\\' in path else path.replace('/', '').replace('\\', ''))
-    # if for test
-    if check_sum:
-        _user = user_loader(check_sum[0])
-        flask_login.login_user(_user)
-        return redirect("/player")
-    return redirect("/login")
 
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    print(flask_login.current_user)
-    print("are you fake user?")
     return redirect(url_for('login_page'))

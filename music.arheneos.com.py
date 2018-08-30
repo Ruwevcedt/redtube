@@ -6,7 +6,7 @@ keyfile = ""
 certfile = ""
 
 if sys.platform == "darwin":
-    http_server = pywsgi.WSGIServer(('0.0.0.0', 19283), app)
+    http_server = pywsgi.WSGIServer(('localhost', 5000), app)
 else:
     http_server = pywsgi.WSGIServer(('0.0.0.0', 19283), app, keyfile=keyfile, certfile=certfile)
 
