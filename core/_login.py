@@ -26,7 +26,7 @@ class EncodeObj:
         checksum = hashlib.md5(
             self.__xor_encode(self.__str_to_byte_array(username), self.__str_to_byte_array(self.__salted_key)).encode(
                 'utf-8'))
-        return str(checksum.digest()).replace('/', '').replace('\\', '')
+        return str(checksum.digest()).replace('/', '').replace('\\', '').replace('#', '')
 
 
 class SinUsers:
@@ -58,7 +58,9 @@ users.add_user("collride", cryption.encoded_username("collride"))
 users.add_user("AngryBoy9623", cryption.encoded_username("AngryBoy9623"))
 users.add_user("hustle0306", cryption.encoded_username("hustle0306"))
 users.add_user("BWwaffle", cryption.encoded_username("BWwaffle"))
-users.add_user("test", "test")  # delete these on real use
+users.add_user("test", "test")  # delete this line on real use
+
+print(users.user_data.values())
 
 
 class User(flask_login.UserMixin):
@@ -76,10 +78,9 @@ def user_loader(username):
 @app.route('/login/<path:path>')
 def request_loader(path):
     check_sum = users.username_check(
-        path if not '/' in path or '\\' in path else path.replace('/', '').replace('\\', ''))
+        path if not '/' in path or '\\' in path else path.replace('/', '').replace('\\', '').replace('#', ''))
     if check_sum:
         flask_login.login_user(user_loader(check_sum[0]))
-        # music_list[check_sum[0]].path_assign(f"music/{check_sum[0]}/")
         return redirect(url_for('player'))
     return redirect(url_for('login_page'))
 
@@ -88,7 +89,6 @@ def request_loader(path):
 def login_page():
     if request.method == 'POST' and request.form['username'] == 'test':
         flask_login.login_user(user_loader('test'))
-        # music_list["test"].path_assign("music/test/")
         return redirect(url_for('player'))
     return render_template("login.html")
 

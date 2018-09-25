@@ -8,7 +8,7 @@ import os
 # Music Init
 
 music_list = dict(
-    Angryboy9623=MusicList("music/Angryboy9623/"),
+    AngryBoy9623=MusicList("music/AngryBoy9623/"),
     Arheneos=MusicList("music/Arheneos/"),
     boco114=MusicList("music/boco114/"),
     BWwaffle=MusicList("music/BWwaffle/"),
