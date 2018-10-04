@@ -7,5 +7,5 @@ greenlet==0.4.14
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
-pytube==9.2.2
+pytube==9.2.3
 Werkzeug==0.14.1

@@ -44,7 +44,7 @@ class SinUsers:
         return self.user_data[uid] == pw
 
     def username_check(self, encoded_data: str) -> [str]:
-        return [user_id for user_id in self.user_data.keys() if cryption.encoded_username(user_id) == encoded_data]
+        return [user_id for user_id in self.user_data.keys() if encoded_data[:10] == cryption.encoded_username(user_id)[:10]]
 
 
 cryption = EncodeObj(secret_key="original_sin")
